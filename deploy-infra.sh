@@ -47,10 +47,17 @@ echo -e "\n\n================= Deploying main.yaml ====================="
 	GitHubPersonalAccessToken=$GH_ACCESS_TOKEN \
 	CodePipelineBucket=$CODEPIPELINE_BUCKET
 
+# If the deploy succeeded, show the DNS name of the created instance
+# if [ $? -eq 0 ]; then
+# 	aws cloudformation list-exports \
+# 		--profile awsbootstrap \
+# 		--query "Exports[?starts_with(Name, 'InstanceEndpoint')].Value"
+# fi
+
 echo ""
 # If the deploy succeeded, show the DNS name of the created instance
 if [ $? -eq 0 ]; then
 	aws cloudformation list-exports \
 		--profile awsbootstrap \
-		--query "Exports[?starts_with(Name, 'InstanceEndpoint')].Value"
+		--query "Exports[?ends_with(Name,'LBEndpoint')].Value"
 fi
