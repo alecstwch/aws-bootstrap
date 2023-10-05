@@ -19,7 +19,7 @@ GH_BRANCH=master
 
 # Deploys static resources
 echo -e "\n\n=========== Deploying setup.yml ==========="
-aws cloudformation deploy \
+1aws cloudformation deploy \
 	--region $REGION \
 	--profile $CLI_PROFILE \
 	--stack-name $STACK_NAME-setup \
@@ -32,7 +32,7 @@ aws cloudformation deploy \
 #Deploy the Cloudformation template
 
 echo -e "\n\n================= Deploying main.yaml ====================="
-aws cloudformation deploy \
+1aws cloudformation deploy \
 	--region $REGION \
 	--profile $CLI_PROFILE \
 	--stack-name $STACK_NAME \
@@ -47,9 +47,10 @@ aws cloudformation deploy \
 	GitHubPersonalAccessToken=$GH_ACCESS_TOKEN \
 	CodePipelineBucket=$CODEPIPELINE_BUCKET
 
+echo ""
 # If the deploy succeeded, show the DNS name of the created instance
 if [ $? -eq 0 ]; then
 	aws cloudformation list-exports \
 		--profile awsbootstrap \
-		--query "Exports[?Name=='InstanceEndpoint'].Value"
+		--query "Exports[?starts_with(Name, 'InstanceEndpoint')].Value"
 fi
