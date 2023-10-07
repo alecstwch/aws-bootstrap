@@ -20,7 +20,7 @@ GH_BRANCH=master
 
 # Deploys static resources
 echo -e "\n\n=========== Deploying setup.yml ==========="
-1aws cloudformation deploy \
+aws cloudformation deploy \
 	--region $REGION \
 	--profile $CLI_PROFILE \
 	--stack-name $STACK_NAME-setup \
